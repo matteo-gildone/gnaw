@@ -27,7 +27,7 @@ func WriteJSON(path string, v any) error {
 	defer f.Close()
 
 	enc := json.NewEncoder(f)
-	enc.SetIndent("", "    ")
+	enc.SetIndent("", "  ")
 	if err := enc.Encode(v); err != nil {
 		return fmt.Errorf("encode %s: %w", path, err)
 	}

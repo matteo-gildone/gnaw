@@ -106,7 +106,7 @@ func TestReadJSON(t *testing.T) {
 
 func TestReadJSON_NotFound(t *testing.T) {
 	var result map[string]string
-	err := ReadJSON("/nonexistent/path.json", result)
+	err := ReadJSON("/nonexistent/path.json", &result)
 
 	if err == nil {
 		t.Fatal("expected error for nonexistent file")

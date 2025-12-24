@@ -13,7 +13,7 @@ help: ## Show available targets
 
 build: ## Build the binary
 	@mkdir -p bin
-	@go build -trimpath -ldflags="-s -w" -o bin/gnav .
+	@go build -trimpath -ldflags="-s -w" -o bin/gnaw .
 
 test: ## Run tests with race detector
 	@go test -v -race ./...
