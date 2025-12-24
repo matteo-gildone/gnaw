@@ -5,6 +5,7 @@
 # Gnaw
 
 [![Go Version](https://img.shields.io/badge/Go-1.21+-00ADD8?logo=go)](https://go.dev/)
+[![Test](https://github.com/matteo-gildone/gnaw/actions/workflows/test.yml/badge.svg)](https://github.com/matteo-gildone/gnaw/actions/workflows/test.yml)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 A CLI tool to snapshot and diff design tokens. Catches token changes before they hit production.
