@@ -32,13 +32,6 @@ func (c Config) Validate() error {
 	return nil
 }
 
-func Default() Config {
-	return Config{
-		TokensDir:    "tokens",
-		SnapshotFile: "tokens.snapshot.json",
-	}
-}
-
 func Load(dir string) (Config, error) {
 	path := filepath.Join(dir, ConfigFileName)
 

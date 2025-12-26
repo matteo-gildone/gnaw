@@ -2,29 +2,10 @@ package config
 
 import (
 	"errors"
-	"fmt"
 	"os"
 	"path/filepath"
 	"testing"
 )
-
-func ExampleDefault() {
-	cfg := Default()
-	fmt.Printf("%v", cfg)
-	// Output: {tokens tokens.snapshot.json}
-}
-
-func TestDefault(t *testing.T) {
-	cfg := Default()
-
-	if cfg.TokensDir == "" {
-		t.Error("default TokenDir should be not empty")
-	}
-
-	if cfg.SnapshotFile == "" {
-		t.Error("default SnapshotFile should be not empty")
-	}
-}
 
 func TestConfig_Validate(t *testing.T) {
 	tests := []struct {
