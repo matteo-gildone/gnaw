@@ -17,7 +17,7 @@ func ExampleDefault() {
 func TestDefault(t *testing.T) {
 	cfg := Default()
 
-	if cfg.TokenDir == "" {
+	if cfg.TokensDir == "" {
 		t.Error("default TokenDir should be not empty")
 	}
 
@@ -35,14 +35,14 @@ func TestConfig_Validate(t *testing.T) {
 		{
 			name: "empty tokens dir",
 			cfg: Config{
-				TokenDir:     "",
+				TokensDir:    "",
 				SnapshotFile: "tokens.snapshot.json"},
-			wantErr: ErrEmptyTokenDir,
+			wantErr: ErrEmptyTokensDir,
 		},
 		{
 			name: "empty snapshot file",
 			cfg: Config{
-				TokenDir:     "tokens",
+				TokensDir:    "tokens",
 				SnapshotFile: ""},
 			wantErr: ErrEmptySnapshotFile,
 		},
@@ -67,7 +67,7 @@ func TestSaveAndLoad(t *testing.T) {
 	tmpDir := t.TempDir()
 
 	original := Config{
-		TokenDir:     "my-tokens",
+		TokensDir:    "my-tokens",
 		SnapshotFile: "my-snapshot.json",
 	}
 
@@ -86,8 +86,8 @@ func TestSaveAndLoad(t *testing.T) {
 		t.Fatalf("Load() failed: %v", err)
 	}
 
-	if loaded.TokenDir != original.TokenDir {
-		t.Errorf("TokenDir = %q, want %q", loaded.TokenDir, original.TokenDir)
+	if loaded.TokensDir != original.TokensDir {
+		t.Errorf("TokenDir = %q, want %q", loaded.TokensDir, original.TokensDir)
 	}
 
 	if loaded.SnapshotFile != original.SnapshotFile {
@@ -113,7 +113,7 @@ func TestSave_InvalidConfig(t *testing.T) {
 	tmpDir := t.TempDir()
 
 	invalid := Config{
-		TokenDir:     "",
+		TokensDir:    "",
 		SnapshotFile: "my-snapshot.json",
 	}
 
@@ -134,6 +134,6 @@ func TestLoad_InvalidConfig(t *testing.T) {
 
 	_, err := Load(tmpDir)
 	if err == nil {
-		t.Fatal("expected error when saving invalid config")
+		t.Fatal("expected error when loading invalid config")
 	}
 }

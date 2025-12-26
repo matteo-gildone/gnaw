@@ -11,18 +11,18 @@ import (
 const ConfigFileName = ".gnaw"
 
 var (
-	ErrEmptyTokenDir     = errors.New("TokenDir is empty")
+	ErrEmptyTokensDir    = errors.New("TokensDir is empty")
 	ErrEmptySnapshotFile = errors.New("SnapshotFile is empty")
 )
 
 type Config struct {
-	TokenDir     string `json:"tokenDir"`
+	TokensDir    string `json:"tokensDir"`
 	SnapshotFile string `json:"snapshotFile"`
 }
 
 func (c Config) Validate() error {
-	if c.TokenDir == "" {
-		return ErrEmptyTokenDir
+	if c.TokensDir == "" {
+		return ErrEmptyTokensDir
 	}
 
 	if c.SnapshotFile == "" {
@@ -34,7 +34,7 @@ func (c Config) Validate() error {
 
 func Default() Config {
 	return Config{
-		TokenDir:     "tokens",
+		TokensDir:    "tokens",
 		SnapshotFile: "tokens.snapshot.json",
 	}
 }
