@@ -5,11 +5,27 @@ import (
 	"flag"
 	"fmt"
 	"os"
-
-	"github.com/matteo-gildone/gnaw/internal/command"
 )
 
-var commands = []*command.Command{
+type Command struct {
+	Run       func(ctx context.Context, args []string) error
+	UsageLine string
+	Short     string
+	Long      string
+	Flag      flag.FlagSet
+}
+
+func (c *Command) Name() string {
+	name := c.UsageLine
+	for i, r := range name {
+		if r == ' ' || r == '[' {
+			return name[:i]
+		}
+	}
+	return name
+}
+
+var commands = []*Command{
 	cmdInit,
 }
 
@@ -37,11 +53,10 @@ func main() {
 			}
 			return
 		}
-
-		fmt.Fprintf(os.Stderr, "gnaw unknown command %q\n", cmdName)
-		fmt.Fprintf(os.Stderr, "run 'gnaw help' for usage\n")
-		os.Exit(2)
 	}
+	fmt.Fprintf(os.Stderr, "gnaw unknown command %q\n", cmdName)
+	fmt.Fprintf(os.Stderr, "run 'gnaw help' for usage\n")
+	os.Exit(2)
 }
 
 func usage() {
@@ -60,8 +75,8 @@ The commands are:
 	fmt.Fprintf(os.Stderr, "\nUse 'gnaw <command> -h for more information about a command.'\n")
 }
 
-func usageCommand(cmd *command.Command) {
-	fmt.Fprintf(os.Stderr, "usage: gnaw %s\n\n", cmd.Usage)
+func usageCommand(cmd *Command) {
+	fmt.Fprintf(os.Stderr, "usage: gnaw %s\n\n", cmd.UsageLine)
 	fmt.Fprintf(os.Stderr, "%s\n", cmd.Long)
 	cmd.Flag.PrintDefaults()
 }

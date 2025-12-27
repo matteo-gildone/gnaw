@@ -5,15 +5,14 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/matteo-gildone/gnaw/internal/command"
 	"github.com/matteo-gildone/gnaw/internal/config"
 )
 
-var ErrConfigExists = errors.New("configuration already exists at .gnaw")
+var ErrConfigExists = errors.New("configuration already exists")
 
-var cmdInit = &command.Command{
-	Usage: "init [-name <file name>] [-tokens <dir>]",
-	Short: "initialise gnaw configuration",
+var cmdInit = &Command{
+	UsageLine: "init [-name <file name>] [-tokens <dir>]",
+	Short:     "initialise gnaw configuration",
 	Long: `Init creates a .gnaw configuration file in the current directory.
 
 Examples:
