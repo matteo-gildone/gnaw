@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"os"
 
 	"github.com/matteo-gildone/gnaw/internal/config"
 )
@@ -46,7 +47,7 @@ func runInit(ctx context.Context, args []string) error {
 		return fmt.Errorf("failed to save config: %w", err)
 	}
 
-	fmt.Println("Created .gnaw")
+	_, _ = fmt.Fprintf(os.Stdout, "✓ Created .gnaw")
 
 	return nil
 }

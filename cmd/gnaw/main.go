@@ -48,22 +48,26 @@ func main() {
 				usageCommand(cmd)
 				os.Exit(2)
 			}
-			cmd.Flag.Parse(args[1:])
+			err := cmd.Flag.Parse(args[1:])
+			if err != nil {
+				_, _ = fmt.Fprintf(os.Stderr, "failed to parse flag: %v\n", err)
+				os.Exit(1)
+			}
 			ctx := context.Background()
 			if err := cmd.Run(ctx, cmd.Flag.Args()); err != nil {
-				fmt.Fprintf(os.Stderr, "gnaw %s: %v\n", cmdName, err)
+				_, _ = fmt.Fprintf(os.Stderr, "gnaw %s: %v\n", cmdName, err)
 				os.Exit(1)
 			}
 			return
 		}
 	}
-	fmt.Fprintf(os.Stderr, "gnaw unknown command %q\n", cmdName)
-	fmt.Fprintf(os.Stderr, "run 'gnaw' for usage\n")
+	_, _ = fmt.Fprintf(os.Stderr, "gnaw: unknown command %q\n", cmdName)
+	_, _ = fmt.Fprintf(os.Stderr, "Run 'gnaw' for usage.\n")
 	os.Exit(2)
 }
 
 func usage() {
-	fmt.Fprintf(os.Stderr, `gnaw is a tool for managing design tokens snapshot.
+	_, _ = fmt.Fprintf(os.Stderr, `gnaw is a tool for managing design tokens snapshot.
 
 Usage:
 	gnaw <command> [arguments]
@@ -73,13 +77,13 @@ The commands are:
 `)
 
 	for _, cmd := range commands {
-		fmt.Fprintf(os.Stderr, "    %-12s %s\n", cmd.Name(), cmd.Short)
+		_, _ = fmt.Fprintf(os.Stderr, "    %-12s %s\n", cmd.Name(), cmd.Short)
 	}
-	fmt.Fprintf(os.Stderr, "\nUse 'gnaw <command> -h' for more information about a command.'\n")
+	_, _ = fmt.Fprintf(os.Stderr, "\nUse 'gnaw <command> -h' for more information about a command.\n")
 }
 
 func usageCommand(cmd *Command) {
-	fmt.Fprintf(os.Stderr, "usage: gnaw %s\n\n", cmd.UsageLine)
-	fmt.Fprintf(os.Stderr, "%s\n", cmd.Long)
+	_, _ = fmt.Fprintf(os.Stderr, "usage: gnaw %s\n\n", cmd.UsageLine)
+	_, _ = fmt.Fprintf(os.Stderr, "%s\n", cmd.Long)
 	cmd.Flag.PrintDefaults()
 }
