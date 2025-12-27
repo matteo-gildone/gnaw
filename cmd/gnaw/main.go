@@ -44,15 +44,11 @@ func main() {
 
 	for _, cmd := range commands {
 		if cmd.Name() == cmdName {
-			cmd.Flag.Usage = func() { usageCommand(cmd) }
-			if err := cmd.Flag.Parse(args[1:]); err != nil {
-				if err == flag.ErrHelp {
-					os.Exit(0)
-				}
-
-				fmt.Fprintf(os.Stderr, "run 'gnaw' for usage\n")
+			cmd.Flag.Usage = func() {
+				usageCommand(cmd)
 				os.Exit(2)
 			}
+			cmd.Flag.Parse(args[1:])
 			ctx := context.Background()
 			if err := cmd.Run(ctx, cmd.Flag.Args()); err != nil {
 				fmt.Fprintf(os.Stderr, "gnaw %s: %v\n", cmdName, err)
