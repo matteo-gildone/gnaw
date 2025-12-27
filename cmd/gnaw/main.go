@@ -45,7 +45,14 @@ func main() {
 	for _, cmd := range commands {
 		if cmd.Name() == cmdName {
 			cmd.Flag.Usage = func() { usageCommand(cmd) }
-			cmd.Flag.Parse(args[1:])
+			if err := cmd.Flag.Parse(args[1:]); err != nil {
+				if err == flag.ErrHelp {
+					os.Exit(0)
+				}
+
+				fmt.Fprintf(os.Stderr, "run 'gnaw' for usage\n")
+				os.Exit(2)
+			}
 			ctx := context.Background()
 			if err := cmd.Run(ctx, cmd.Flag.Args()); err != nil {
 				fmt.Fprintf(os.Stderr, "gnaw %s: %v\n", cmdName, err)
@@ -55,7 +62,7 @@ func main() {
 		}
 	}
 	fmt.Fprintf(os.Stderr, "gnaw unknown command %q\n", cmdName)
-	fmt.Fprintf(os.Stderr, "run 'gnaw help' for usage\n")
+	fmt.Fprintf(os.Stderr, "run 'gnaw' for usage\n")
 	os.Exit(2)
 }
 
@@ -72,7 +79,7 @@ The commands are:
 	for _, cmd := range commands {
 		fmt.Fprintf(os.Stderr, "    %-12s %s\n", cmd.Name(), cmd.Short)
 	}
-	fmt.Fprintf(os.Stderr, "\nUse 'gnaw <command> -h for more information about a command.'\n")
+	fmt.Fprintf(os.Stderr, "\nUse 'gnaw <command> -h' for more information about a command.'\n")
 }
 
 func usageCommand(cmd *Command) {
